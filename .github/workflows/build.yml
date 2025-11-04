@@ -1,0 +1,23 @@
+name: Conditional Build
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run Build
+        run: |
+          echo "Building..."
+          mkdir build
+          echo "Hello GitHub Actions!" > build/index.html
+
+      - name: Upload Artifact
+        if: ${{ success() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-files
+          path: build/
